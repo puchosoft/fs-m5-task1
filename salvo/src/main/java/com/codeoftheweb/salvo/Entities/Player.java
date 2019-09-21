@@ -21,6 +21,7 @@ public class Player {
   private long id;
 
   private String username;
+  private String password;
 
   // Relacion con la tabla "gamePlayers"
   @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
@@ -33,8 +34,9 @@ public class Player {
   public Player() {
   }
 
-  public Player(String username) {
+  public Player(String username, String password) {
     this.username = username;
+    this.password = password;
   }
 
   public long getId() {
@@ -43,6 +45,10 @@ public class Player {
 
   public String getUsername() {
     return this.username;
+  }
+
+  public String getPassword() {
+    return this.password;
   }
 
   @JsonIgnore

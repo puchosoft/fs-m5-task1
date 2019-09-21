@@ -25,10 +25,10 @@ public class SalvoApplication {
     return (args) -> {
 
       // guardamos algunos players
-      Player jack = new Player("j.bauer@ctu.gov");
-      Player chloe = new Player("c.obrian@ctu.gov");
-      Player kim = new Player("kim_bauer@gmail.com");
-      Player tony = new Player("t.almeida@ctu.gov");
+      Player jack = new Player("j.bauer@ctu.gov", "24");
+      Player chloe = new Player("c.obrian@ctu.gov", "42");
+      Player kim = new Player("kim_bauer@gmail.com", "kb");
+      Player tony = new Player("t.almeida@ctu.gov", "mole");
       playerRepo.save(jack);
       playerRepo.save(chloe);
       playerRepo.save(kim);

@@ -4,22 +4,25 @@
   <meta charset="UTF-8">
   <title>Salvo!</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/games.css">
 </head>
 
 <body>
   <div class="container-fluid bg">
-    <div class="row mt-2">
-      <h2 class="display-5 font-weight-bold font-italic ml-4">Game List</h2>
-    </div>
-    <div class="row">
-      <ol id="gameList"></ol>
+    <div class="row bg-black-50">
+      <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
     </div>
 
     <div class="row mt-2">
-      <h2 class="display-5 font-weight-bold font-italic ml-4">Leaderboard</h2>
-    </div>
-    <div class="row">
-      <table class="mx-4 w-25 mt-2 table table-bordered table-sm table-responsive-sm" id="leaderBoard"></table>
+      <div class="col-6">
+        <h2 class="display-5 font-weight-bold font-italic ml-4 mt-4 text-warning bg-black-50 rounded">&nbspGame List&nbsp</h2>
+        <table class="mx-4 mt-2 table table-bordered table-sm table-responsive-sm text-white bg-black-50" id="gameList"></table>
+      </div>
+
+      <div class="col-6">
+        <h2 class="display-5 font-weight-bold font-italic ml-4 mt-4 text-warning bg-black-50 rounded">&nbspLeaderboard&nbsp</h2>
+        <table class="mx-4 w-25 mt-2 table table-bordered table-sm table-responsive-sm bg-black-50 text-white" id="leaderBoard"></table>
+      </div>
     </div>
   </div>
 

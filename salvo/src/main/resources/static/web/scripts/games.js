@@ -59,13 +59,21 @@ $(function(){
 
   // Construye una lista ordenada de Games con su informacion y la devuelve al HTML
   function showGameList(gameList){
-    var li="";
+    var table = "<tr>\
+                  <th>Nº</th><th>Created</th><th>Player 1</th><th>Player 2</th>\
+                </tr>";
     gameList.forEach(g => {
       var date = new Date(g.created).toLocaleString();
-      var players = g.gamePlayers.map(gp => gp.player.email).join(', ');
-      li+='<li>'+ date + ', ' + players + '</li>';
+      var players = g.gamePlayers.map(gp => gp.player.email);
+      players.push('');
+      table+= '<tr>\
+                <td>' + g.id + '</td>\
+                <td>' + date + '</td>\
+                <td class="text-left">' + players[0] + '</td>\
+                <td class="text-left">' + players[1] + '</td>\
+              </tr>';
     });
-    $('#gameList').html(li);
+    $('#gameList').html(table);
   }
 
   // Construye una tabla de estadisticas de puntajes de jugadores y la devuelve al HTML
@@ -75,11 +83,11 @@ $(function(){
                  </tr>";
     getLeaderTable(gameList).forEach(player => {
       table += '<tr>\
-                  <td>' + player.name + '</td>\
-                  <td class="text-center">' + player.total + '</td>\
-                  <td class="text-center">' + player.won + '</td>\
-                  <td class="text-center">' + player.lost + '</td>\
-                  <td class="text-center">' + player.tied + '</td>\
+                  <td class="text-left">' + player.name + '</td>\
+                  <td>' + player.total + '</td>\
+                  <td>' + player.won + '</td>\
+                  <td>' + player.lost + '</td>\
+                  <td>' + player.tied + '</td>\
                 </tr>';
     });
 
@@ -88,10 +96,12 @@ $(function(){
 
   function loadData(){
       $.getJSON("/api/games")
-      .done(function(data) {
+      .done(
+        function(data) {
           showGameList(data);
           showLeaderBoard(data);
-      });
+        }
+      );
   }
 
   loadData();

@@ -4,6 +4,7 @@ import com.codeoftheweb.salvo.Entities.GamePlayer;
 import com.codeoftheweb.salvo.Repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.Repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,9 @@ public class SalvoController {
 
   @Autowired
   private GamePlayerRepository gamePlayerRepo;
+
+  @Autowired
+  //private PasswordEncoder passwordEncoder;
 
   // Genera un JSON con la informacion de los games en la URL /api/games
   @RequestMapping("/games")

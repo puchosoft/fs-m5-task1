@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -30,6 +32,12 @@ public class SalvoApplication {
     SpringApplication.run(SalvoApplication.class, args);
   }
 
+
+  @Bean
+  public PasswordEncoder passwordEncoder(){
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
+
   // Este codigo se ejecuta al inicio de la aplicacion
   @Bean
   public CommandLineRunner initData(PlayerRepository playerRepo,
@@ -41,10 +49,10 @@ public class SalvoApplication {
     return (args) -> {
 
       // guardamos algunos players
-      Player jack = new Player("j.bauer@ctu.gov", "24");
-      Player chloe = new Player("c.obrian@ctu.gov", "42");
-      Player kim = new Player("kim_bauer@gmail.com", "kb");
-      Player tony = new Player("t.almeida@ctu.gov", "mole");
+      Player jack = new Player("j.bauer@ctu.gov", passwordEncoder().encode("24"));
+      Player chloe = new Player("c.obrian@ctu.gov", passwordEncoder().encode("42"));
+      Player kim = new Player("kim_bauer@gmail.com", passwordEncoder().encode("kb"));
+      Player tony = new Player("t.almeida@ctu.gov", passwordEncoder().encode("mole"));
       playerRepo.save(jack);
       playerRepo.save(chloe);
       playerRepo.save(kim);
@@ -163,7 +171,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     auth.userDetailsService(inputName-> {
       Player player = playerRepo.findByUsername(inputName);
       if (player != null) {
-        return new User(player.getUsername(), "{noop}"+player.getPassword(),
+        return new User(player.getUsername(),player.getPassword(),
             AuthorityUtils.createAuthorityList("USER"));
       } else {
         throw new UsernameNotFoundException("Unknown user: " + inputName);

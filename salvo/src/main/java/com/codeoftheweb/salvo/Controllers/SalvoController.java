@@ -26,7 +26,7 @@ public class SalvoController {
   private GamePlayerRepository gamePlayerRepo;
 
   @Autowired
-  //private PasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
 
   // Genera un JSON con la informacion de los games en la URL /api/games
   @RequestMapping("/games")

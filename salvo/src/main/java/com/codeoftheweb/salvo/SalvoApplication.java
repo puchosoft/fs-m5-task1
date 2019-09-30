@@ -162,7 +162,7 @@ public class SalvoApplication {
 }
 
 @Configuration
-class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+class WebSecurityAuthentication extends GlobalAuthenticationConfigurerAdapter {
 
   @Autowired
   PlayerRepository playerRepo;
@@ -182,7 +182,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
 @EnableWebSecurity
 @Configuration
-class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+class WebSecurityAuthorization extends WebSecurityConfigurerAdapter {
 
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()

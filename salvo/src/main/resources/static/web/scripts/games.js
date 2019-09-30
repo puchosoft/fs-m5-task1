@@ -98,8 +98,8 @@ $(function(){
       $.getJSON("/api/games")
       .done(
         function(data) {
-          showGameList(data);
-          showLeaderBoard(data);
+          showGameList(data.games);
+          showLeaderBoard(data.games);
         }
       );
   }

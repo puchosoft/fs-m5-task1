@@ -186,7 +186,7 @@ class WebSecurityAuthorization extends WebSecurityConfigurerAdapter {
 
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers("/web/games.html", "/api/games", "/api/login").permitAll()
+        .antMatchers("/web/games.html", "/api/games", "/api/login", "/api/players").permitAll()
         .antMatchers("/rest/**").hasAuthority("ADMIN")
         .antMatchers("/api/**", "/web/game.html**").hasAuthority("USER")
         .anyRequest().permitAll();

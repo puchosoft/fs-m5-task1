@@ -6,17 +6,14 @@ import com.codeoftheweb.salvo.Repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.Repositories.GameRepository;
 import com.codeoftheweb.salvo.Repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import sun.tools.jconsole.JConsole;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import java.net.Authenticator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
@@ -35,8 +32,8 @@ public class SalvoController {
   @Autowired
   private PlayerRepository playerRepo;
 
-  //@Autowired
-  //private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   // Genera un JSON con la informacion de los games en la URL /api/games
   @RequestMapping("/games")
@@ -76,6 +73,24 @@ public class SalvoController {
 
   private Player getCurrentPlayer(Authentication auth) {
     return isGuest(auth)? null : playerRepo.findByUsername(auth.getName());
+  }
+
+  @RequestMapping(path = "/players", method = RequestMethod.POST)
+  public ResponseEntity<Map<String, Object>> createPlayer(@RequestParam String username, @RequestParam String password){
+    Map<String, Object> map = new LinkedHashMap<>();
+    HttpStatus status = HttpStatus.FORBIDDEN;
+    if (username.isEmpty()){
+      map.put("error", "No name");
+    }
+    else if (playerRepo.findByUsername(username) != null){
+      map.put("error", "Name in use");
+    }
+    else {
+      Player player = playerRepo.save(new Player(username, passwordEncoder.encode(password)));
+      map.put("username", player.getUsername());
+      status = HttpStatus.CREATED;
+    }
+    return new ResponseEntity<>(map, status );
   }
 
 }

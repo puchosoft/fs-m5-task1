@@ -10,7 +10,16 @@
 <body>
   <div class="container-fluid bg">
     <div class="row bg-black-50">
-      <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
+      <div class="col-8">
+        <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
+      </div>
+      <div class="col-4 text-warning">
+        <form action="false" method="post">
+          <div class="col-6"><label>Username: <input type="text" name="username"/> </label></div>
+          <div class="col-6"><label>Password:&nbsp; <input type="password" name="password"/> </label></div>
+          <div><input type="submit" value="Sign In"/></div>
+        </form>
+      </div>
     </div>
 
     <div class="row mt-2">

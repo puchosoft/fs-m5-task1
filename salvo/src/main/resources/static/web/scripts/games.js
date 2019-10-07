@@ -1,5 +1,16 @@
 $(function(){
 
+  function showUserLogged(player){
+    if(player == null){
+      $('#loginForm').show();
+      $('#logoutForm').hide();
+    } else{
+      $('#loginForm').hide();
+      $('#logoutForm').show();
+    }
+    $('#userLogged').html(player==null?"guest":player.email);
+  }
+
   function getTotal(name){
     return scoreList.filter(s => s.name == name).reduce((total, s) => total + s.score, 0);
   }
@@ -98,6 +109,7 @@ $(function(){
       $.getJSON("/api/games")
       .done(
         function(data) {
+          showUserLogged(data.player)
           showGameList(data.games);
           showLeaderBoard(data.games);
         }

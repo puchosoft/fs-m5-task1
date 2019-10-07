@@ -180,44 +180,44 @@ class WebSecurityAuthentication extends GlobalAuthenticationConfigurerAdapter {
   }
 }
 
-  @EnableWebSecurity
-  @Configuration
-  class WebSecurityAuthorization extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+@Configuration
+class WebSecurityAuthorization extends WebSecurityConfigurerAdapter {
 
-    protected void configure(HttpSecurity http) throws Exception {
-      http.authorizeRequests()
-          .antMatchers("/web/games.html", "/api/games", "/api/login", "/api/players").permitAll()
-          .antMatchers("/rest/**").hasAuthority("ADMIN")
-          .antMatchers("/api/**", "/web/game.html**").hasAuthority("USER")
-          .anyRequest().permitAll();
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers("/web/games.html", "/api/games", "/api/login", "/api/players").permitAll()
+        .antMatchers("/rest/**").hasAuthority("ADMIN")
+        .antMatchers("/api/**", "/web/game.html**").hasAuthority("USER")
+        .anyRequest().permitAll();
 
-      http.formLogin()
-          .usernameParameter("username")
-          .passwordParameter("password")
-          .loginPage("/api/login");
+    http.formLogin()
+        .usernameParameter("username")
+        .passwordParameter("password")
+        .loginPage("/api/login");
 
-      http.logout().logoutUrl("/api/logout");
+    http.logout().logoutUrl("/api/logout");
 
-      // turn off checking for CSRF tokens
-      http.csrf().disable();
+    // turn off checking for CSRF tokens
+    http.csrf().disable();
 
-      // if user is not authenticated, just send an authentication failure response
-      http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+    // if user is not authenticated, just send an authentication failure response
+    http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-      // if login is successful, just clear the flags asking for authentication
-      http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+    // if login is successful, just clear the flags asking for authentication
+    http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
 
-      // if login fails, just send an authentication failure response
-      http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+    // if login fails, just send an authentication failure response
+    http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-      // if logout is successful, just send a success response
-      http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-    }
+    // if logout is successful, just send a success response
+    http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+  }
 
-    private void clearAuthenticationAttributes(HttpServletRequest request) {
-      HttpSession session = request.getSession(false);
-      if (session != null) {
-        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-      }
+  private void clearAuthenticationAttributes(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
   }
+}

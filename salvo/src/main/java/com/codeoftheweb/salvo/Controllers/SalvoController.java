@@ -67,8 +67,8 @@ public class SalvoController {
     return gameDTO;
   }
 
-  private boolean isGuest(Authentication authentication) {
-    return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+  private boolean isGuest(Authentication auth) {
+    return auth == null || auth instanceof AnonymousAuthenticationToken;
   }
 
   private Player getCurrentPlayer(Authentication auth) {
@@ -76,16 +76,23 @@ public class SalvoController {
   }
 
   @RequestMapping(path = "/players", method = RequestMethod.POST)
-  public ResponseEntity<Map<String, Object>> createPlayer(@RequestParam String username, @RequestParam String password){
+  public ResponseEntity<Map<String, Object>> createPlayer(@RequestParam String username, @RequestParam String password, Authentication auth){
     Map<String, Object> map = new LinkedHashMap<>();
-    HttpStatus status = HttpStatus.FORBIDDEN;
-    if (username.isEmpty()){
+    HttpStatus status;
+
+    if(!isGuest(auth)){ // Si ya hay un usuario conectado ...
+      map.put("error", "User logged in ");
+      status = HttpStatus.CONFLICT;
+    }
+    else if (username.isEmpty()){ // Si el username está vacio
       map.put("error", "No name");
+      status = HttpStatus.EXPECTATION_FAILED;
     }
-    else if (playerRepo.findByUsername(username) != null){
+    else if (playerRepo.findByUsername(username) != null){ // Si el username ya está en uso
       map.put("error", "Name in use");
+      status = HttpStatus.FORBIDDEN;
     }
-    else {
+    else { // Si es correcto ...
       Player player = playerRepo.save(new Player(username, passwordEncoder.encode(password)));
       map.put("username", player.getUsername());
       status = HttpStatus.CREATED;

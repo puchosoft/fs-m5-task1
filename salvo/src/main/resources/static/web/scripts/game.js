@@ -19,10 +19,25 @@ function loadData(){
   if(location.search.startsWith("?gp=")){
     id = location.search.slice(4);
     $.getJSON("/api/game_view/"+id)
-          .done(function(data) {
-            showPlayersInfo(id,data.gamePlayers);
-            showGrids(data.ships, data.salvoes);
-          });
+      .done(
+        function(gameViewData){
+          $.getJSON("/api/games")
+            .done(
+              function(gamesData){
+                loggedID = gamesData.player.id;
+                ownerID = gameViewData.gamePlayers.find(gp => gp.id == id).player.id;
+
+                // Si coinciden el usuario conectado y el dueño del gamePlayer
+                if(loggedID == ownerID){
+                  showPlayersInfo(id,gameViewData.gamePlayers);
+                  showGrids(gameViewData.ships, gameViewData.salvoes);
+                } else {
+                  alert('Unauthorized user');
+                }
+              }
+            );
+        }
+      );
   }
 }
 

@@ -10,14 +10,28 @@
 <body>
   <div class="container-fluid bg">
     <div class="row bg-black-50">
-      <div class="col-8">
+      <div class="col-3 my-auto">
+        <h5 class="text-warning">User: <a id="userLogged" class="text-white font-italic"></a></h5>
+      </div>
+      <div class="col-6">
         <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
       </div>
-      <div class="col-4 text-warning">
-        <form action="false" method="post">
-          <div class="col-6"><label>Username: <input type="text" name="username"/> </label></div>
-          <div class="col-6"><label>Password:&nbsp; <input type="password" name="password"/> </label></div>
-          <div><input type="submit" value="Sign In"/></div>
+      <div class="col-3 my-auto text-warning">
+        <form method="post" action="" id="loginForm">
+          <div class="row">
+            <div class="col-9 px-0"><label>Username: <input type="text" name="username"/></label></div>
+            <div class="col-3"><button type="submit" id="loginBtn">Login</button></div>
+          </div>
+          <div class="row">
+            <div class="col-9 px-0"><label>Password:&nbsp; <input type="password" name="password"/> </label></div>
+            <div class="col-3"><button type="submit" id="signupBtn">SignUp</button></div>
+          </div>
+        </form>
+        <form method="post" action="" id="logoutForm">
+          <div class="row">
+            <div class="col-9 px-0"></div>
+            <div class="col-3 px-0"><button type="submit" id="logoutBtn">Logout</button></div>
+          </div>
         </form>
       </div>
     </div>
@@ -39,5 +53,6 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="scripts/games.js"></script>
+  <script src="scripts/authentication.js"></script>
 </body>
 </html>
